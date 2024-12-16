@@ -6,7 +6,7 @@ export const Navbar = () => {
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <a href="/" className="text-2xl font-bold text-primary">Saree Elite</a>
+          <a href="/" className="text-2xl font-bold text-primary">The Kanchi Project</a>
           
           <div className="hidden md:flex items-center space-x-8">
             <a href="#" className="text-gray-600 hover:text-primary transition-colors">New Arrivals</a>
