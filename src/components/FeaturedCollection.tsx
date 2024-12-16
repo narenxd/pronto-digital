@@ -3,22 +3,22 @@ import { Button } from "@/components/ui/button";
 
 const collections = [
   {
-    title: "Temple Collection",
-    image: "https://images.unsplash.com/photo-1610030469629-dc6b53aa7ac1",
-    description: "Inspired by ancient temple architecture and traditional motifs",
-    price: "From ₹15,999"
-  },
-  {
-    title: "Contemporary Fusion",
-    image: "https://images.unsplash.com/photo-1610030469629-dc6b53aa7ac1",
-    description: "Modern designs with a perfect blend of traditional elements",
-    price: "From ₹12,999"
-  },
-  {
-    title: "Bridal Series",
-    image: "https://images.unsplash.com/photo-1610030469629-dc6b53aa7ac1",
-    description: "Luxurious pieces for your special occasions",
+    title: "Kanchipuram Silk",
+    image: "https://images.unsplash.com/photo-1610174622758-c2a7855ea2a0",
+    description: "Luxurious silk sarees with traditional temple borders",
     price: "From ₹25,999"
+  },
+  {
+    title: "Banarasi Silk",
+    image: "https://images.unsplash.com/photo-1610174622758-c2a7855ea2a0",
+    description: "Intricate zari work on pure silk fabric",
+    price: "From ₹22,999"
+  },
+  {
+    title: "Mysore Silk",
+    image: "https://images.unsplash.com/photo-1610174622758-c2a7855ea2a0",
+    description: "Lightweight silk sarees with contemporary designs",
+    price: "From ₹18,999"
   }
 ];
 
@@ -28,7 +28,7 @@ export const FeaturedCollection = () => {
       <div className="container">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-4xl font-bold mb-4">Featured Collections</h2>
-          <p className="text-gray-600">Discover our most sought-after pieces, crafted with precision and adorned with traditional motifs</p>
+          <p className="text-gray-600">Discover our most sought-after silk sarees, crafted with precision and adorned with traditional motifs</p>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
