@@ -3,6 +3,7 @@ import { Hero } from "@/components/Hero";
 import { FeaturedCollection } from "@/components/FeaturedCollection";
 import { Testimonials } from "@/components/Testimonials";
 import { Newsletter } from "@/components/Newsletter";
+import { Footer } from "@/components/Footer";
 
 const Index = () => {
   return (
@@ -12,6 +13,7 @@ const Index = () => {
       <FeaturedCollection />
       <Testimonials />
       <Newsletter />
+      <Footer />
     </div>
   );
 };
