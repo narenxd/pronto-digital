@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Clock } from "lucide-react";
-
-const SALE_TIME = {
-  hours: 14, // 2 PM
-  minutes: 0,
-  duration: 30 // 30 minutes
-};
+import { useToast } from "@/hooks/use-toast";
 
 const saleItems = [
   {
@@ -17,6 +12,8 @@ const saleItems = [
     salePrice: "₹7,299",
     discount: "90%",
     type: "members",
+    unlockTime: { hours: 14, minutes: 0 }, // 2:00 PM
+    quantity: 3
   },
   {
     id: 2,
@@ -26,6 +23,8 @@ const saleItems = [
     salePrice: "₹29,499",
     discount: "50%",
     type: "public",
+    unlockTime: { hours: 15, minutes: 30 }, // 3:30 PM
+    quantity: 6
   },
   {
     id: 3,
@@ -35,19 +34,22 @@ const saleItems = [
     salePrice: "₹19,799",
     discount: "70%",
     type: "members",
+    unlockTime: { hours: 17, minutes: 0 }, // 5:00 PM
+    quantity: 4
   }
 ];
 
 export const SaleTeaser = () => {
-  const [timeRemaining, setTimeRemaining] = useState<string>("Loading...");
+  const [timeRemaining, setTimeRemaining] = useState<{ [key: number]: string }>({});
+  const { toast } = useToast();
 
   useEffect(() => {
-    const calculateTimeRemaining = () => {
+    const calculateTimeRemaining = (unlockTime: { hours: number, minutes: number }) => {
       const now = new Date();
       const saleDate = new Date();
-      saleDate.setHours(SALE_TIME.hours, SALE_TIME.minutes, 0, 0);
+      saleDate.setHours(unlockTime.hours, unlockTime.minutes, 0, 0);
       
-      if (now.getHours() >= SALE_TIME.hours + 1) {
+      if (now > saleDate) {
         saleDate.setDate(saleDate.getDate() + 1);
       }
       
@@ -60,28 +62,24 @@ export const SaleTeaser = () => {
     };
 
     const timer = setInterval(() => {
-      setTimeRemaining(calculateTimeRemaining());
+      const times = saleItems.reduce((acc, item) => ({
+        ...acc,
+        [item.id]: calculateTimeRemaining(item.unlockTime)
+      }), {});
+      setTimeRemaining(times);
     }, 1000);
 
     return () => clearInterval(timer);
   }, []);
 
-  const getCardStyle = (type: string, discount: string) => {
-    if (discount === "50%") {
-      return "bg-gradient-to-br from-gray-900 to-gray-800";
-    }
-    return "bg-gradient-to-br from-primary to-primary/80";
-  };
-
   return (
-    <section className="py-20 bg-accent/30">
+    <section className="py-20 bg-gray-900">
       <div className="container">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Today's Flash Sale</h2>
-          <div className="flex items-center justify-center gap-3 text-xl font-semibold">
+          <h2 className="text-4xl font-bold mb-4 text-white">Today's Flash Sale</h2>
+          <div className="flex items-center justify-center gap-3 text-xl font-semibold text-white/90">
             <Clock className="w-6 h-6 text-primary" />
-            <span>Sale Starts In: </span>
-            <span className="font-mono text-primary">{timeRemaining}</span>
+            <span>Multiple Drops Throughout The Day</span>
           </div>
         </div>
 
@@ -89,14 +87,14 @@ export const SaleTeaser = () => {
           {saleItems.map((item) => (
             <Card 
               key={item.id} 
-              className={`overflow-hidden group relative ${getCardStyle(item.type, item.discount)}`}
+              className="overflow-hidden group relative bg-gradient-to-br from-gray-900 to-gray-800 border-gray-800"
             >
               <div className="aspect-[3/4] relative">
-                <div className="absolute inset-0 backdrop-blur-xl bg-black/20 group-hover:backdrop-blur-lg transition-all duration-500">
+                <div className="absolute inset-0 backdrop-blur-[20px] bg-black/40 group-hover:backdrop-blur-[25px] transition-all duration-500">
                   <img 
                     src={item.image} 
                     alt={item.name}
-                    className="w-full h-full object-cover opacity-50"
+                    className="w-full h-full object-cover opacity-40"
                   />
                 </div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-6 text-center">
@@ -112,9 +110,17 @@ export const SaleTeaser = () => {
                     <p className="text-lg font-bold bg-white/20 px-4 py-1 rounded-full">
                       {item.discount} OFF
                     </p>
+                    <p className="text-sm font-medium text-primary-foreground">
+                      Only {item.quantity} pieces available
+                    </p>
                   </div>
-                  <div className="mt-4 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm">
-                    <p className="text-sm">Unlocks in {timeRemaining}</p>
+                  <div className="mt-6">
+                    <div className="text-sm mb-2">
+                      Unlocks at {item.unlockTime.hours}:{item.unlockTime.minutes.toString().padStart(2, '0')} PM
+                    </div>
+                    <div className="bg-black/60 px-4 py-2 rounded-full backdrop-blur-sm">
+                      <p className="text-sm font-mono">{timeRemaining[item.id]}</p>
+                    </div>
                   </div>
                 </div>
               </div>
