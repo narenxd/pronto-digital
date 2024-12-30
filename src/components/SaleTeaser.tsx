@@ -87,39 +87,41 @@ export const SaleTeaser = () => {
           {saleItems.map((item) => (
             <Card 
               key={item.id} 
-              className="overflow-hidden group relative bg-gradient-to-br from-gray-900 to-gray-800 border-gray-800"
+              className="overflow-hidden group relative bg-gradient-to-br from-gray-900 to-gray-800 border-gray-800 transition-all duration-500"
             >
               <div className="aspect-[3/4] relative">
-                <div className="absolute inset-0 backdrop-blur-[20px] bg-black/40 group-hover:backdrop-blur-[25px] transition-all duration-500">
+                <div className="absolute inset-0 backdrop-blur-[90px] group-hover:backdrop-blur-[40px] bg-black/90 group-hover:bg-black/40 transition-all duration-500">
                   <img 
                     src={item.image} 
                     alt={item.name}
                     className="w-full h-full object-cover opacity-40"
                   />
                 </div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-6 text-center">
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
                   {item.type === "members" && (
-                    <div className="absolute top-4 right-4 bg-primary px-3 py-1 rounded-full text-xs font-semibold">
+                    <div className="absolute top-4 right-4 bg-primary/90 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide">
                       Members Only
                     </div>
                   )}
-                  <h3 className="text-2xl font-bold mb-2">{item.name}</h3>
-                  <div className="space-y-2">
-                    <p className="text-lg line-through opacity-70">{item.originalPrice}</p>
-                    <p className="text-2xl font-bold text-white">{item.salePrice}</p>
-                    <p className="text-lg font-bold bg-white/20 px-4 py-1 rounded-full">
-                      {item.discount} OFF
-                    </p>
-                    <p className="text-sm font-medium text-primary-foreground">
+                  <h3 className="text-3xl font-bold mb-6 text-white tracking-tight">{item.name}</h3>
+                  <div className="space-y-4 mb-8">
+                    <p className="text-base font-medium text-white/60 line-through">{item.originalPrice}</p>
+                    <p className="text-4xl font-bold text-white tracking-tight">{item.salePrice}</p>
+                    <div className="inline-block bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full">
+                      <p className="text-xl font-bold text-white">
+                        {item.discount} OFF
+                      </p>
+                    </div>
+                    <p className="text-sm font-medium text-primary">
                       Only {item.quantity} pieces available
                     </p>
                   </div>
-                  <div className="mt-6">
-                    <div className="text-sm mb-2">
+                  <div className="space-y-3">
+                    <div className="text-sm font-medium text-white/80">
                       Unlocks at {item.unlockTime.hours}:{item.unlockTime.minutes.toString().padStart(2, '0')} PM
                     </div>
-                    <div className="bg-black/60 px-4 py-2 rounded-full backdrop-blur-sm">
-                      <p className="text-sm font-mono">{timeRemaining[item.id]}</p>
+                    <div className="bg-black/60 px-6 py-2.5 rounded-full backdrop-blur-sm">
+                      <p className="text-lg font-mono font-bold text-white">{timeRemaining[item.id]}</p>
                     </div>
                   </div>
                 </div>
