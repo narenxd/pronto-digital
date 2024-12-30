@@ -14,7 +14,9 @@ const saleItems = [
     name: "Royal Kanchipuram Silk",
     image: "/lovable-uploads/eba10039-94a3-419f-892b-dd5970bbb88d.png",
     originalPrice: "₹72,999",
-    salePrice: "₹36,499",
+    salePrice: "₹7,299",
+    discount: "90%",
+    type: "members",
   },
   {
     id: 2,
@@ -22,13 +24,17 @@ const saleItems = [
     image: "/lovable-uploads/65af042f-e798-4f89-9f37-d5b3399eec35.png",
     originalPrice: "₹58,999",
     salePrice: "₹29,499",
+    discount: "50%",
+    type: "public",
   },
   {
     id: 3,
     name: "Fusion Collection",
     image: "/lovable-uploads/ff476503-31c7-4bd9-8ec4-0f7fb1714bca.png",
     originalPrice: "₹65,999",
-    salePrice: "₹32,999",
+    salePrice: "₹19,799",
+    discount: "70%",
+    type: "members",
   }
 ];
 
@@ -60,6 +66,13 @@ export const SaleTeaser = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const getCardStyle = (type: string, discount: string) => {
+    if (discount === "50%") {
+      return "bg-gradient-to-br from-gray-900 to-gray-800";
+    }
+    return "bg-gradient-to-br from-primary to-primary/80";
+  };
+
   return (
     <section className="py-20 bg-accent/30">
       <div className="container">
@@ -74,7 +87,10 @@ export const SaleTeaser = () => {
 
         <div className="grid md:grid-cols-3 gap-8">
           {saleItems.map((item) => (
-            <Card key={item.id} className="overflow-hidden group relative">
+            <Card 
+              key={item.id} 
+              className={`overflow-hidden group relative ${getCardStyle(item.type, item.discount)}`}
+            >
               <div className="aspect-[3/4] relative">
                 <div className="absolute inset-0 backdrop-blur-xl bg-black/20 group-hover:backdrop-blur-lg transition-all duration-500">
                   <img 
@@ -84,10 +100,18 @@ export const SaleTeaser = () => {
                   />
                 </div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-6 text-center">
+                  {item.type === "members" && (
+                    <div className="absolute top-4 right-4 bg-primary px-3 py-1 rounded-full text-xs font-semibold">
+                      Members Only
+                    </div>
+                  )}
                   <h3 className="text-2xl font-bold mb-2">{item.name}</h3>
                   <div className="space-y-2">
                     <p className="text-lg line-through opacity-70">{item.originalPrice}</p>
-                    <p className="text-2xl font-bold text-primary">{item.salePrice}</p>
+                    <p className="text-2xl font-bold text-white">{item.salePrice}</p>
+                    <p className="text-lg font-bold bg-white/20 px-4 py-1 rounded-full">
+                      {item.discount} OFF
+                    </p>
                   </div>
                   <div className="mt-4 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm">
                     <p className="text-sm">Unlocks in {timeRemaining}</p>
