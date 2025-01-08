@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Clock } from "lucide-react";
+import { Clock, Tag, Lock, ShoppingBag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "./ui/button";
 
 const saleItems = [
   {
@@ -72,12 +73,23 @@ export const SaleTeaser = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const handleNotifyMe = (itemName: string) => {
+    toast({
+      title: "Notification Set!",
+      description: `We'll notify you when the ${itemName} sale starts.`,
+      duration: 3000,
+    });
+  };
+
   return (
-    <section className="py-20 bg-gray-900">
+    <section className="py-24 bg-black">
       <div className="container">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 text-white">Today's Flash Sale</h2>
-          <div className="flex items-center justify-center gap-3 text-xl font-semibold text-white/90">
+        <div className="text-center mb-16">
+          <div className="inline-block bg-primary/10 px-6 py-2 rounded-full mb-4">
+            <h2 className="text-lg font-semibold text-primary tracking-wide">FLASH SALE</h2>
+          </div>
+          <h2 className="text-4xl font-bold mb-4 text-white">Today's Special Offers</h2>
+          <div className="flex items-center justify-center gap-3 text-xl font-medium text-white/80">
             <Clock className="w-6 h-6 text-primary" />
             <span>Multiple Drops Throughout The Day</span>
           </div>
@@ -87,14 +99,14 @@ export const SaleTeaser = () => {
           {saleItems.map((item) => (
             <Card 
               key={item.id} 
-              className="overflow-hidden group relative bg-gradient-to-br from-gray-900 to-gray-800 border-gray-800 transition-all duration-500"
+              className="overflow-hidden group relative bg-gradient-to-br from-gray-900 to-black border-gray-800 hover:border-gray-700 transition-all duration-500"
             >
               <div className="aspect-[3/4] relative">
                 <div className="absolute inset-0 backdrop-blur-[90px] group-hover:backdrop-blur-[40px] bg-black/90 group-hover:bg-black/40 transition-all duration-500">
                   <img 
                     src={item.image} 
                     alt={item.name}
-                    className="w-full h-full object-cover opacity-40"
+                    className="w-full h-full object-cover opacity-30 group-hover:opacity-60 transition-opacity duration-500"
                   />
                 </div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
@@ -103,26 +115,46 @@ export const SaleTeaser = () => {
                       Members Only
                     </div>
                   )}
-                  <h3 className="text-3xl font-bold mb-6 text-white tracking-tight">{item.name}</h3>
-                  <div className="space-y-4 mb-8">
-                    <p className="text-base font-medium text-white/60 line-through">{item.originalPrice}</p>
-                    <p className="text-4xl font-bold text-white tracking-tight">{item.salePrice}</p>
-                    <div className="inline-block bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full">
-                      <p className="text-xl font-bold text-white">
-                        {item.discount} OFF
-                      </p>
+                  
+                  <div className="space-y-6">
+                    <h3 className="text-2xl font-bold text-white tracking-tight">{item.name}</h3>
+                    
+                    <div className="space-y-2">
+                      <p className="text-base font-medium text-white/60 line-through">{item.originalPrice}</p>
+                      <p className="text-4xl font-bold text-primary tracking-tight">{item.salePrice}</p>
+                      <div className="inline-block bg-primary/10 px-4 py-1.5 rounded-full">
+                        <p className="text-lg font-bold text-primary">
+                          {item.discount} OFF
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-sm font-medium text-primary">
-                      Only {item.quantity} pieces available
-                    </p>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="text-sm font-medium text-white/80">
-                      Unlocks at {item.unlockTime.hours}:{item.unlockTime.minutes.toString().padStart(2, '0')} PM
+                    
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-center gap-2 text-white/80">
+                        <ShoppingBag className="w-4 h-4" />
+                        <p className="text-sm font-medium">
+                          Only {item.quantity} pieces available
+                        </p>
+                      </div>
+                      
+                      <div className="flex items-center justify-center gap-2 text-white/80">
+                        <Lock className="w-4 h-4" />
+                        <p className="text-sm font-medium">
+                          Unlocks at {item.unlockTime.hours}:{item.unlockTime.minutes.toString().padStart(2, '0')} PM
+                        </p>
+                      </div>
+                      
+                      <div className="bg-white/5 px-4 py-2 rounded-full backdrop-blur-sm">
+                        <p className="text-lg font-mono font-bold text-white">{timeRemaining[item.id]}</p>
+                      </div>
                     </div>
-                    <div className="bg-black/60 px-6 py-2.5 rounded-full backdrop-blur-sm">
-                      <p className="text-lg font-mono font-bold text-white">{timeRemaining[item.id]}</p>
-                    </div>
+                    
+                    <Button 
+                      onClick={() => handleNotifyMe(item.name)}
+                      className="w-full bg-primary hover:bg-primary/90 text-white"
+                    >
+                      Notify Me
+                    </Button>
                   </div>
                 </div>
               </div>
