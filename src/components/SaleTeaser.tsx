@@ -13,7 +13,7 @@ const saleItems = [
     salePrice: "₹7,299",
     discount: "90%",
     type: "members",
-    unlockTime: { hours: 14, minutes: 0 }, // 2:00 PM
+    unlockTime: { hours: 14, minutes: 0 },
     quantity: 3
   },
   {
@@ -24,7 +24,7 @@ const saleItems = [
     salePrice: "₹29,499",
     discount: "50%",
     type: "public",
-    unlockTime: { hours: 15, minutes: 30 }, // 3:30 PM
+    unlockTime: { hours: 15, minutes: 30 },
     quantity: 6
   },
   {
@@ -35,7 +35,7 @@ const saleItems = [
     salePrice: "₹19,799",
     discount: "70%",
     type: "members",
-    unlockTime: { hours: 17, minutes: 0 }, // 5:00 PM
+    unlockTime: { hours: 17, minutes: 0 },
     quantity: 4
   }
 ];
@@ -99,45 +99,51 @@ export const SaleTeaser = () => {
           {saleItems.map((item) => (
             <Card 
               key={item.id} 
-              className="overflow-hidden group relative bg-gradient-to-br from-gray-900 to-black border-gray-800 hover:border-gray-700 transition-all duration-500"
+              className="overflow-hidden group bg-gradient-to-br from-gray-900 to-black border-gray-800 hover:border-gray-700 transition-all duration-500"
             >
-              <div className="aspect-[3/4] relative">
-                <div className="absolute inset-0 backdrop-blur-[90px] group-hover:backdrop-blur-[40px] bg-black/90 group-hover:bg-black/40 transition-all duration-500">
+              <div className="relative">
+                <div className="aspect-[3/4] relative overflow-hidden">
                   <img 
                     src={item.image} 
                     alt={item.name}
-                    className="w-full h-full object-cover opacity-30 group-hover:opacity-60 transition-opacity duration-500"
+                    className="w-full h-full object-cover"
                   />
-                </div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+                  <div className="absolute inset-0 backdrop-blur-[90px] group-hover:backdrop-blur-[40px] bg-black/90 group-hover:bg-black/40 transition-all duration-500" />
+                  
                   {item.type === "members" && (
-                    <div className="absolute top-4 right-4 bg-primary/90 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide">
+                    <div className="absolute top-4 right-4 bg-primary/90 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide text-white">
                       Members Only
                     </div>
                   )}
                   
-                  <div className="space-y-6">
-                    <h3 className="text-2xl font-bold text-white tracking-tight">{item.name}</h3>
-                    
-                    <div className="space-y-2">
-                      <p className="text-base font-medium text-white/60 line-through">{item.originalPrice}</p>
-                      <p className="text-4xl font-bold text-primary tracking-tight">{item.salePrice}</p>
-                      <div className="inline-block bg-primary/10 px-4 py-1.5 rounded-full">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center px-6">
+                      <h3 className="text-2xl font-bold text-white tracking-tight mb-2">{item.name}</h3>
+                      <div className="inline-block bg-primary/10 px-4 py-1.5 rounded-full mb-2">
                         <p className="text-lg font-bold text-primary">
                           {item.discount} OFF
                         </p>
                       </div>
                     </div>
+                  </div>
+                </div>
+                
+                <div className="p-6 bg-black">
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <p className="text-base font-medium text-white/60 line-through">{item.originalPrice}</p>
+                      <p className="text-3xl font-bold text-primary tracking-tight">{item.salePrice}</p>
+                    </div>
                     
                     <div className="space-y-2">
-                      <div className="flex items-center justify-center gap-2 text-white/80">
+                      <div className="flex items-center gap-2 text-white/80">
                         <ShoppingBag className="w-4 h-4" />
                         <p className="text-sm font-medium">
                           Only {item.quantity} pieces available
                         </p>
                       </div>
                       
-                      <div className="flex items-center justify-center gap-2 text-white/80">
+                      <div className="flex items-center gap-2 text-white/80">
                         <Lock className="w-4 h-4" />
                         <p className="text-sm font-medium">
                           Unlocks at {item.unlockTime.hours}:{item.unlockTime.minutes.toString().padStart(2, '0')} PM
