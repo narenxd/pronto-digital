@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { ArrowRight, Bot, Sparkles, Phone, Mail, Building2 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ArrowRight, Bot, Sparkles } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,6 +22,7 @@ const formSchema = z.object({
 export const Hero = () => {
   const { toast } = useToast();
   const [captchaToken, setCaptchaToken] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,6 +50,7 @@ export const Hero = () => {
       title: "Request Received!",
       description: "Our team will contact you within 24 hours.",
     });
+    setIsDialogOpen(false);
     console.log(data);
   };
 
@@ -57,8 +60,7 @@ export const Hero = () => {
       
       <div className="relative container mx-auto px-4 py-16 lg:py-24">
         <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] text-center">
-          {/* Hero Content */}
-          <div className="max-w-4xl mx-auto space-y-8 animate-fade-in mb-12">
+          <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
             <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-md px-4 py-2 rounded-full text-primary">
               <Sparkles className="w-4 h-4" />
               <span className="text-sm font-medium">Transform Your Marketing with AI</span>
@@ -76,60 +78,61 @@ export const Hero = () => {
 
             <Button 
               size="lg"
-              onClick={() => document.getElementById('audit-form')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => setIsDialogOpen(true)}
               className="bg-primary hover:bg-primary/90 text-white text-lg px-8 py-6 rounded-full group"
             >
               Get Your Free AI Marketing Audit
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
+        </div>
+      </div>
 
-          {/* Audit Form */}
-          <div id="audit-form" className="w-full max-w-2xl mx-auto bg-accent/80 backdrop-blur-md p-8 rounded-2xl border border-white/10 animate-fade-in">
-            <div className="mb-8 text-center">
-              <h3 className="text-2xl font-bold text-white mb-2">Discover Your Growth Potential</h3>
-              <p className="text-white/80">Tell us about your business and challenges</p>
-            </div>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="bg-accent/80 backdrop-blur-md border-white/10 max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-white text-center">Discover Your Growth Potential</DialogTitle>
+          </DialogHeader>
+          
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white">Full Name</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="John Doe" 
+                          className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-white">Full Name</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="John Doe" 
-                            className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-white">Work Email</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="john@company.com" 
-                            className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white">Work Email</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="john@company.com" 
+                          className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <FormField
@@ -169,23 +172,23 @@ export const Hero = () => {
                   />
                 </div>
 
-                <FormField
-                  control={form.control}
-                  name="challenges"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-white">What are your main marketing challenges?</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="Tell us about your current challenges..." 
-                          className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <FormField
+                control={form.control}
+                name="challenges"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-white">What are your main marketing challenges?</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="Tell us about your current challenges..." 
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
                 <FormField
                   control={form.control}
@@ -209,27 +212,26 @@ export const Hero = () => {
                   )}
                 />
 
-                <div className="flex justify-center">
-                  <HCaptcha
-                    sitekey="10000000-ffff-ffff-ffff-000000000001"
-                    onVerify={(token) => setCaptchaToken(token)}
-                    theme="dark"
-                  />
-                </div>
+              <div className="flex justify-center">
+                <HCaptcha
+                  sitekey="10000000-ffff-ffff-ffff-000000000001"
+                  onVerify={(token) => setCaptchaToken(token)}
+                  theme="dark"
+                />
+              </div>
 
-                <Button 
-                  type="submit"
-                  size="lg"
-                  className="w-full bg-primary hover:bg-primary/90 text-white text-lg font-semibold"
-                >
-                  Get Your Free Analysis
-                  <Bot className="ml-2" />
-                </Button>
-              </form>
-            </Form>
-          </div>
-        </div>
-      </div>
+              <Button 
+                type="submit"
+                size="lg"
+                className="w-full bg-primary hover:bg-primary/90 text-white text-lg font-semibold"
+              >
+                Get Your Free Analysis
+                <Bot className="ml-2" />
+              </Button>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
