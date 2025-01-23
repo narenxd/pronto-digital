@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { Search, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Navbar = () => {
@@ -16,6 +16,15 @@ export const Navbar = () => {
             <a href="#" className="text-white/90 hover:text-primary transition-colors">About Us</a>
             <a href="#" className="text-white/90 hover:text-primary transition-colors">Blog</a>
             <a href="#" className="text-white/90 hover:text-primary transition-colors">Contact</a>
+            <div className="relative group">
+              <a href="#" className="flex items-center gap-2 text-white/90 hover:text-primary transition-colors">
+                <Bot className="w-5 h-5" />
+                <span>Get Hired</span>
+              </a>
+              <div className="absolute bg-primary/10 px-2 py-1 rounded-md text-xs text-primary -top-4 -right-4">
+                New
+              </div>
+            </div>
           </div>
 
           <div className="flex items-center space-x-4">
