@@ -22,19 +22,19 @@ const GetHired = () => {
               </div>
               
               {/* Main Title */}
-              <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight">
+              <h1 className="text-4xl lg:text-6xl font-bold text-white leading-tight">
                 Get Hired While You Sleep!
                 <span className="block text-primary mt-2">Let AI Apply to 1,000 Jobs for You</span>
               </h1>
               
               {/* Features List */}
-              <div className="max-w-2xl mx-auto space-y-4 text-xl text-white/80">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 text-lg text-white/80">
                 {features.map((feature, index) => (
                   <div 
                     key={index}
-                    className="flex items-center gap-3 justify-center"
+                    className="flex items-center gap-3"
                   >
-                    <CheckCircle2 className="text-primary w-6 h-6 flex-shrink-0" />
+                    <CheckCircle2 className="text-primary w-5 h-5 flex-shrink-0" />
                     <span>{feature}</span>
                   </div>
                 ))}
