@@ -1,95 +1,99 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { ArrowRight, Bot, Sparkles } from "lucide-react";
+import { ArrowRight, Bot, Sparkles, Phone, Mail, Building2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/components/ui/use-toast";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Invalid email address"),
-  website: z.string().url("Invalid website URL").optional(),
+  phone: z.string().min(10, "Valid phone number required"),
+  company: z.string().min(2, "Company name is required"),
+  challenges: z.string().min(10, "Please describe your challenges"),
+  budget: z.string().min(1, "Please select your budget"),
 });
 
 export const Hero = () => {
   const { toast } = useToast();
+  const [captchaToken, setCaptchaToken] = useState("");
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
-      website: "",
+      phone: "",
+      company: "",
+      challenges: "",
+      budget: "",
     },
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
+    if (!captchaToken) {
+      toast({
+        title: "Verification Required",
+        description: "Please complete the captcha verification",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     toast({
-      title: "Audit Request Received!",
-      description: "We'll analyze your marketing and get back to you within 24 hours.",
+      title: "Request Received!",
+      description: "Our team will contact you within 24 hours.",
     });
     console.log(data);
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#0A2463] to-[#3CBBB1]">
-      <div className="absolute inset-0 bg-black/5 backdrop-blur-sm"></div>
+    <div className="relative min-h-screen bg-black">
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-primary/20"></div>
       
       <div className="relative container mx-auto px-4 py-16 lg:py-24">
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-8rem)]">
-          {/* Left Column */}
-          <div className="space-y-8 animate-fade-in">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-white/90">
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] text-center">
+          {/* Hero Content */}
+          <div className="max-w-4xl mx-auto space-y-8 animate-fade-in mb-12">
+            <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-md px-4 py-2 rounded-full text-primary">
               <Sparkles className="w-4 h-4" />
-              <span className="text-sm font-medium">AI-Powered Marketing Solutions</span>
+              <span className="text-sm font-medium">Transform Your Marketing with AI</span>
             </div>
             
-            <div className="space-y-6">
-              <h1 className="text-4xl lg:text-6xl font-bold text-white leading-tight">
-                Scale Your Marketing
-                <span className="block text-[#3CBBB1]">10x Faster with AI & CMO Expertise</span>
-              </h1>
-              
-              <p className="text-xl text-white/80 max-w-xl">
-                Pronto Digital delivers done-for-you SEO, content creation, and automation—no hiring headaches, no wasted budgets.
-              </p>
-            </div>
+            <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight">
+              Supercharge Your Growth
+              <span className="block text-primary mt-2">With AI-Powered Marketing</span>
+            </h1>
             
-            <div className="flex items-center gap-8 text-white/80">
-              <div className="flex flex-col">
-                <span className="text-3xl font-bold text-white">300%</span>
-                <span className="text-sm">Average ROI</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-3xl font-bold text-white">50+</span>
-                <span className="text-sm">Active Clients</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-3xl font-bold text-white">24/7</span>
-                <span className="text-sm">AI Support</span>
-              </div>
-            </div>
+            <p className="text-xl text-white/80 max-w-2xl mx-auto">
+              Join 200+ businesses achieving 3x ROI with our AI-driven marketing solutions. 
+              Ready to scale your business?
+            </p>
 
             <Button 
-              size="lg" 
-              className="bg-[#3CBBB1] hover:bg-[#3CBBB1]/90 text-white border-2 border-[#3CBBB1] hover:border-[#3CBBB1]/90 text-lg group"
+              size="lg"
+              onClick={() => document.getElementById('audit-form')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-primary hover:bg-primary/90 text-white text-lg px-8 py-6 rounded-full group"
             >
-              Book Your Free Consultation
+              Get Your Free AI Marketing Audit
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
 
-          {/* Right Column - Audit Form */}
-          <div className="relative">
-            <div className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 animate-fade-in">
-              <div className="mb-6">
-                <h3 className="text-2xl font-bold text-white mb-2">Get Your Free AI Marketing Audit</h3>
-                <p className="text-white/80">Discover untapped growth opportunities in 24 hours</p>
-              </div>
+          {/* Audit Form */}
+          <div id="audit-form" className="w-full max-w-2xl mx-auto bg-accent/80 backdrop-blur-md p-8 rounded-2xl border border-white/10 animate-fade-in">
+            <div className="mb-8 text-center">
+              <h3 className="text-2xl font-bold text-white mb-2">Discover Your Growth Potential</h3>
+              <p className="text-white/80">Tell us about your business and challenges</p>
+            </div>
 
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
                   <FormField
                     control={form.control}
                     name="name"
@@ -125,16 +129,18 @@ export const Hero = () => {
                       </FormItem>
                     )}
                   />
+                </div>
 
+                <div className="grid md:grid-cols-2 gap-6">
                   <FormField
                     control={form.control}
-                    name="website"
+                    name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-white">Company Website</FormLabel>
+                        <FormLabel className="text-white">Phone Number</FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="https://company.com" 
+                            placeholder="+1 (555) 000-0000" 
                             className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
                             {...field} 
                           />
@@ -144,17 +150,83 @@ export const Hero = () => {
                     )}
                   />
 
-                  <Button 
-                    type="submit"
-                    size="lg"
-                    className="w-full bg-white text-[#0A2463] hover:bg-white/90 text-lg font-semibold"
-                  >
-                    Get Free Audit
-                    <Bot className="ml-2" />
-                  </Button>
-                </form>
-              </Form>
-            </div>
+                  <FormField
+                    control={form.control}
+                    name="company"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-white">Company Name</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Your Company" 
+                            className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="challenges"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white">What are your main marketing challenges?</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="Tell us about your current challenges..." 
+                          className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="budget"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white">Monthly Marketing Budget</FormLabel>
+                      <FormControl>
+                        <select 
+                          {...field}
+                          className="w-full bg-white/10 border-white/20 text-white rounded-md px-3 py-2"
+                        >
+                          <option value="">Select budget range</option>
+                          <option value="2500-5000">$2,500 - $5,000</option>
+                          <option value="5000-10000">$5,000 - $10,000</option>
+                          <option value="10000+">$10,000+</option>
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex justify-center">
+                  <HCaptcha
+                    sitekey="10000000-ffff-ffff-ffff-000000000001"
+                    onVerify={(token) => setCaptchaToken(token)}
+                    theme="dark"
+                  />
+                </div>
+
+                <Button 
+                  type="submit"
+                  size="lg"
+                  className="w-full bg-primary hover:bg-primary/90 text-white text-lg font-semibold"
+                >
+                  Get Your Free Analysis
+                  <Bot className="ml-2" />
+                </Button>
+              </form>
+            </Form>
           </div>
         </div>
       </div>
