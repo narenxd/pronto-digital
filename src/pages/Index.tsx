@@ -8,6 +8,7 @@ import { FeaturedCollection } from "@/components/FeaturedCollection";
 import { CaseStudies } from "@/components/CaseStudies";
 import { Testimonials } from "@/components/Testimonials";
 import { Newsletter } from "@/components/Newsletter";
+import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 
 const Index = () => {
@@ -22,6 +23,7 @@ const Index = () => {
       <SaleTeaser />
       <FeaturedCollection />
       <Testimonials />
+      <FinalCTA />
       <Newsletter />
       <Footer />
     </div>
