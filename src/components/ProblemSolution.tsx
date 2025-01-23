@@ -1,4 +1,4 @@
-import { Clock, Cpu, Users } from "lucide-react";
+import { Bot, Brain, Rocket, TrendingUp } from "lucide-react";
 import { useState } from "react";
 
 export const ProblemSolution = () => {
@@ -8,23 +8,23 @@ export const ProblemSolution = () => {
     {
       problem: "Manual processes eating your time?",
       solution: "AI automation cuts workload by 50%",
-      icon: Clock,
+      icon: Bot,
       description: "Automate repetitive tasks and focus on strategy with AI-powered workflows",
-      image: "/lovable-uploads/65af042f-e798-4f89-9f37-d5b3399eec35.png"
+      gradient: "from-primary/20 via-primary/10 to-transparent"
     },
     {
       problem: "Struggling to keep up with AI trends?",
       solution: "Fractional CMO guidance",
-      icon: Cpu,
+      icon: Brain,
       description: "Get expert guidance on implementing the latest AI marketing technologies",
-      image: "/lovable-uploads/9f3dd44c-c57f-4a4c-b133-1e370d37c193.png"
+      gradient: "from-primary/30 via-primary/15 to-transparent"
     },
     {
       problem: "No in-house marketing expertise?",
       solution: "Done-for-you content & ads",
-      icon: Users,
+      icon: Rocket,
       description: "Let our team handle your entire marketing operation with AI efficiency",
-      image: "/lovable-uploads/e7a9c04b-1abf-428e-97a9-4c0515c98e3a.png"
+      gradient: "from-primary/40 via-primary/20 to-transparent"
     },
   ];
 
@@ -34,6 +34,10 @@ export const ProblemSolution = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-4">
+            <TrendingUp className="w-4 h-4" />
+            <span className="text-sm font-medium">Solutions That Scale</span>
+          </div>
           <h2 className="text-4xl font-bold text-white mb-4">
             Common Challenges, <span className="text-primary">Solved</span>
           </h2>
@@ -46,28 +50,23 @@ export const ProblemSolution = () => {
           {solutions.map((item, index) => (
             <div
               key={index}
-              className="group relative rounded-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:scale-105"
+              className="group relative rounded-xl overflow-hidden cursor-pointer bg-accent/30 backdrop-blur-sm border border-white/5"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
-              {/* Background Image */}
-              <div className="absolute inset-0">
-                <img 
-                  src={item.image} 
-                  alt={item.problem}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/70 group-hover:bg-black/40 transition-colors duration-500"></div>
-              </div>
+              {/* Gradient Background */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
 
               {/* Content */}
               <div className="relative p-8 min-h-[400px] flex flex-col items-center justify-center text-center">
                 <div 
-                  className={`mb-8 p-4 rounded-full bg-primary/20 transition-all duration-500 ${
-                    hoveredIndex === index ? 'scale-110' : ''
+                  className={`mb-8 p-6 rounded-full bg-primary/20 transition-all duration-500 ${
+                    hoveredIndex === index ? 'scale-110 bg-primary/30' : ''
                   }`}
                 >
-                  <item.icon className="w-8 h-8 text-primary" />
+                  <item.icon className={`w-12 h-12 transition-colors duration-500 ${
+                    hoveredIndex === index ? 'text-primary' : 'text-white/80'
+                  }`} />
                 </div>
 
                 <div className="space-y-4">
@@ -81,6 +80,11 @@ export const ProblemSolution = () => {
                     {item.description}
                   </p>
                 </div>
+
+                {/* Netflix-style hover line animation */}
+                <div className={`absolute bottom-0 left-0 w-full h-1 bg-primary transform origin-left transition-transform duration-500 ${
+                  hoveredIndex === index ? 'scale-x-100' : 'scale-x-0'
+                }`}></div>
               </div>
             </div>
           ))}
