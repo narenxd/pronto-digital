@@ -1,28 +1,19 @@
-import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Navbar = () => {
   return (
-    <nav className="fixed top-0 w-full z-50">
+    <nav className="fixed top-0 w-full z-50 bg-white border-b border-gray-200">
       <div className="container mx-auto px-4 py-4">
-        <div className="bg-black/30 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex items-center justify-between">
-          <a href="/" className="text-2xl font-bold text-primary tracking-wider">
-            Pronto Digital
+        <div className="flex items-center justify-between">
+          <a href="/" className="text-2xl font-bold text-blue-600 tracking-wider">
+            JobAI
           </a>
           
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-white/90 hover:text-primary transition-colors">Services</a>
-            <a href="#" className="text-white/90 hover:text-primary transition-colors">Case Studies</a>
-            <a href="#" className="text-white/90 hover:text-primary transition-colors">About Us</a>
-            <a href="#" className="text-white/90 hover:text-primary transition-colors">Blog</a>
-            <a href="#" className="text-white/90 hover:text-primary transition-colors">Contact</a>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="text-white hover:text-primary">
-              <Search className="h-5 w-5" />
-            </Button>
-            <Button variant="default" className="bg-primary hover:bg-primary/90 text-white">
+            <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
+            <a href="#pricing" className="text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
+            <a href="#about" className="text-gray-600 hover:text-blue-600 transition-colors">About</a>
+            <Button variant="default" className="bg-blue-600 hover:bg-blue-700 text-white">
               Get Started
             </Button>
           </div>
