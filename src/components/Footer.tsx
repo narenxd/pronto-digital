@@ -64,8 +64,27 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-16 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Pronto Digital. All rights reserved.</p>
+        <div className="border-t border-gray-800 mt-16 pt-8">
+          <div className="flex flex-col items-center justify-center gap-4">
+            <p className="text-gray-400">&copy; {new Date().getFullYear()} Pronto Digital. All rights reserved.</p>
+            
+            {/* Credits section */}
+            <div className="flex items-center gap-2 text-xs text-gray-500">
+              <span>Powered by</span>
+              <a 
+                href="https://github.com/feder-cr/Jobs_Applier_AI_Agent" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="opacity-50 hover:opacity-100 transition-opacity"
+              >
+                <img 
+                  src="/lovable-uploads/cb0e2359-c83c-4f8b-a3cc-f67b7ba108fb.png" 
+                  alt="Jobs Applier AI Agent" 
+                  className="h-6 w-auto"
+                />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
