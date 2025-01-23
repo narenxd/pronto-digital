@@ -1,4 +1,4 @@
-import { Robot, Users, PenTool } from "lucide-react";
+import { Bot, Users, PenTool } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +8,7 @@ const services = [
   {
     id: "ai-automation",
     title: "AI-Powered SEO & Ads",
-    icon: Robot,
+    icon: Bot,
     features: ["Predictive analytics", "Multi-channel automation", "24/7 campaign optimization", "Real-time performance tracking"],
     price: "Starting at $2,500/mo"
   },
